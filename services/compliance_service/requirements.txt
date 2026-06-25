@@ -1,0 +1,2 @@
+-r ../shared/requirements.txt
+# No additional deps — calls RAG service via httpx

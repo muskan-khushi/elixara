@@ -1,0 +1,104 @@
+{
+  "regulations": [
+    {
+      "id":          "OISD-137-4.2",
+      "standard":    "OISD-137",
+      "category":    "Safety",
+      "subcategory": "Inspection",
+      "title":       "Pressure vessel inspection intervals",
+      "requirement": "Pressure vessels in high-pressure service shall be inspected by a competent authority at intervals not exceeding two years.",
+      "check_query": "What is the inspection interval for pressure vessels and who performs the inspection?",
+      "keywords":    ["pressure vessel", "inspection", "competent authority", "two years"]
+    },
+    {
+      "id":          "OISD-137-6.1",
+      "standard":    "OISD-137",
+      "category":    "Safety",
+      "subcategory": "Maintenance",
+      "title":       "Rotating equipment maintenance records",
+      "requirement": "Maintenance records for rotating equipment including pumps, compressors and turbines shall be maintained and reviewed at intervals not exceeding one year.",
+      "check_query": "Are maintenance records maintained for rotating equipment such as pumps and compressors?",
+      "keywords":    ["rotating equipment", "pump", "compressor", "maintenance records"]
+    },
+    {
+      "id":          "FACTORY-ACT-S7",
+      "standard":    "Factories Act 1948",
+      "category":    "Safety",
+      "subcategory": "Machinery",
+      "title":       "Fencing of dangerous machinery",
+      "requirement": "Every dangerous part of any machinery must be securely fenced by safeguards of substantial construction.",
+      "check_query": "Are procedures for machinery guarding and fencing of dangerous parts documented?",
+      "keywords":    ["machinery", "fencing", "guard", "dangerous part"]
+    },
+    {
+      "id":          "FACTORY-ACT-S31",
+      "standard":    "Factories Act 1948",
+      "category":    "Safety",
+      "subcategory": "Pressure Plant",
+      "title":       "Examination of pressure plant",
+      "requirement": "If any plant or machinery or any part thereof is operated at a pressure above atmospheric pressure, effective measures shall be taken to ensure that the safe working pressure is not exceeded.",
+      "check_query": "Are safe working pressure limits documented and enforced for pressure plant?",
+      "keywords":    ["pressure plant", "safe working pressure", "atmospheric pressure"]
+    },
+    {
+      "id":          "PESO-GCR-18",
+      "standard":    "PESO Gas Cylinder Rules 2016",
+      "category":    "Regulatory",
+      "subcategory": "Testing",
+      "title":       "Hydraulic testing of compressed gas cylinders",
+      "requirement": "Compressed gas cylinders must be subjected to hydraulic pressure test at intervals not exceeding five years.",
+      "check_query": "Is there a procedure for periodic hydraulic testing of gas cylinders?",
+      "keywords":    ["gas cylinder", "hydraulic test", "compressed gas", "five years"]
+    },
+    {
+      "id":          "OISD-116-5.1",
+      "standard":    "OISD-116",
+      "category":    "Fire Safety",
+      "subcategory": "Fire Fighting",
+      "title":       "Fire fighting equipment maintenance",
+      "requirement": "Fire fighting equipment shall be inspected and maintained in accordance with the manufacturer recommendations and at intervals not exceeding one year.",
+      "check_query": "Are fire fighting equipment inspection and maintenance procedures documented?",
+      "keywords":    ["fire fighting", "fire extinguisher", "sprinkler", "maintenance"]
+    },
+    {
+      "id":          "OISD-116-7.3",
+      "standard":    "OISD-116",
+      "category":    "Fire Safety",
+      "subcategory": "Emergency Response",
+      "title":       "Emergency response procedures",
+      "requirement": "A documented emergency response procedure shall be available and all personnel shall be trained on emergency response at intervals not exceeding six months.",
+      "check_query": "Is there a documented emergency response procedure and is training conducted regularly?",
+      "keywords":    ["emergency response", "procedure", "training", "evacuation"]
+    },
+    {
+      "id":          "OISD-GDN-145-4.1",
+      "standard":    "OISD-GDN-145",
+      "category":    "Process Safety",
+      "subcategory": "Hazard Identification",
+      "title":       "HAZOP study documentation",
+      "requirement": "A Hazard and Operability Study (HAZOP) shall be conducted for all new process units and reviewed every five years for existing units.",
+      "check_query": "Has a HAZOP study been conducted and are the findings documented?",
+      "keywords":    ["HAZOP", "hazard", "operability", "process safety"]
+    },
+    {
+      "id":          "ISO-45001-6.1",
+      "standard":    "ISO 45001:2018",
+      "category":    "Safety",
+      "subcategory": "Risk Assessment",
+      "title":       "Occupational health and safety risk assessment",
+      "requirement": "The organization shall establish, implement and maintain processes to identify hazards and assess OH&S risks.",
+      "check_query": "Is there a documented process for occupational health and safety risk assessment?",
+      "keywords":    ["risk assessment", "hazard identification", "OH&S", "occupational health"]
+    },
+    {
+      "id":          "OISD-STD-105-3.2",
+      "standard":    "OISD-STD-105",
+      "category":    "Safety",
+      "subcategory": "Work Permit",
+      "title":       "Work permit system",
+      "requirement": "A written work permit system shall be implemented for all hot work, confined space entry, electrical isolation and height work activities.",
+      "check_query": "Is there a documented work permit system for hazardous activities such as hot work and confined space entry?",
+      "keywords":    ["work permit", "hot work", "confined space", "electrical isolation"]
+    }
+  ]
+}
