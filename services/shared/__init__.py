@@ -1,0 +1,1 @@
+# services/shared — imported by all Python services
