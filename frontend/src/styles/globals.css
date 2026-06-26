@@ -1,0 +1,259 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap");
+
+:root {
+  /* ── Page backgrounds ── */
+  --bg-page: #0f0b26;
+  --bg-surface: #1c1640;
+  --bg-surface-2: #251e50;
+  --bg-surface-3: #2e2760;
+
+  /* ── Borders ── */
+  --border-subtle: #2e2755;
+  --border-medium: #3d3570;
+  --border-strong: #5a4fa0;
+
+  /* ── Brand colors ── */
+  --purple: #6c3fc8;
+  --purple-hover: #7d52d8;
+  --purple-glow: #8b5de8;
+  --purple-dim: #4a2b9a;
+  --gold: #e8a930;
+  --gold-hover: #f0b840;
+  --gold-dim: #b8821e;
+
+  /* ── Text ── */
+  --text-1: #f0edf9;
+  --text-2: #a89ec8;
+  --text-3: #6b6090;
+  --text-inverse: #1a1035;
+
+  /* ── Entity colors ── */
+  --entity-equip: #e8a930;
+  --entity-reg: #e85a30;
+  --entity-person: #30c8a9;
+  --entity-param: #5a9ee8;
+  --entity-loc: #a830c8;
+
+  /* ── Semantic colors ── */
+  --success: #30a856;
+  --warning: #e8a930;
+  --danger: #e83030;
+  --info: #3090e8;
+
+  /* ── Shadows ── */
+  --shadow-card: 0 4px 24px rgba(108, 63, 200, 0.15);
+  --shadow-glow: 0 0 20px rgba(108, 63, 200, 0.35);
+  --shadow-gold: 0 0 16px rgba(232, 169, 48, 0.3);
+
+  /* ── Radii ── */
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 16px;
+  --radius-xl: 24px;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+  background: var(--bg-page);
+  color: var(--text-1);
+  font-family: "Inter", sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── Scrollbar ── */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: var(--bg-surface);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--border-medium);
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--border-strong);
+}
+
+/* ── Typography helpers ── */
+.mono {
+  font-family: "JetBrains Mono", monospace;
+}
+.text-muted {
+  color: var(--text-2);
+}
+.text-dim {
+  color: var(--text-3);
+}
+
+/* ── Card base ── */
+.card {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  padding: 1.25rem;
+}
+.card-elevated {
+  background: var(--bg-surface-2);
+  border: 1px solid var(--border-medium);
+  border-radius: var(--radius-lg);
+  padding: 1.25rem;
+  box-shadow: var(--shadow-card);
+}
+
+/* ── Entity chip colors ── */
+.entity-equip {
+  color: var(--entity-equip);
+  font-family: "JetBrains Mono", monospace;
+  font-weight: 500;
+}
+.entity-reg {
+  color: var(--entity-reg);
+}
+.entity-person {
+  color: var(--entity-person);
+}
+.entity-param {
+  color: var(--entity-param);
+}
+.entity-loc {
+  color: var(--entity-loc);
+}
+
+/* ── Citation links ── */
+.citation {
+  color: var(--purple-glow);
+  cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+/* ── Status badge base ── */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 8px;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+.badge-success {
+  background: rgba(48, 168, 86, 0.15);
+  color: var(--success);
+  border: 1px solid rgba(48, 168, 86, 0.3);
+}
+.badge-warning {
+  background: rgba(232, 169, 48, 0.15);
+  color: var(--warning);
+  border: 1px solid rgba(232, 169, 48, 0.3);
+}
+.badge-danger {
+  background: rgba(232, 48, 48, 0.15);
+  color: var(--danger);
+  border: 1px solid rgba(232, 48, 48, 0.3);
+}
+.badge-info {
+  background: rgba(48, 144, 232, 0.15);
+  color: var(--info);
+  border: 1px solid rgba(48, 144, 232, 0.3);
+}
+.badge-purple {
+  background: rgba(108, 63, 200, 0.2);
+  color: var(--purple-glow);
+  border: 1px solid rgba(108, 63, 200, 0.4);
+}
+
+/* ── Animations ── */
+@keyframes pulse-dot {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.3; }
+}
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+@keyframes fade-in {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes glow-pulse {
+  0%, 100% { box-shadow: 0 0 8px rgba(108, 63, 200, 0.4); }
+  50% { box-shadow: 0 0 24px rgba(108, 63, 200, 0.8); }
+}
+
+.animate-fade-in {
+  animation: fade-in 0.3s ease forwards;
+}
+.animate-spin {
+  animation: spin 1s linear infinite;
+}
+.animate-pulse-dot {
+  animation: pulse-dot 1.5s ease infinite;
+}
+
+/* ── Streaming text cursor ── */
+.streaming-cursor::after {
+  content: "▋";
+  color: var(--purple-glow);
+  animation: pulse-dot 0.8s ease infinite;
+}
+
+/* ── Input base ── */
+input[type="text"],
+input[type="search"],
+input[type="email"],
+input[type="password"],
+textarea,
+select {
+  background: var(--bg-surface-2);
+  border: 1px solid var(--border-medium);
+  border-radius: var(--radius-md);
+  color: var(--text-1);
+  font-family: "Inter", sans-serif;
+  outline: none;
+  transition: border-color 0.15s;
+}
+input[type="text"]:focus,
+input[type="search"]:focus,
+input[type="email"]:focus,
+input[type="password"]:focus,
+textarea:focus,
+select:focus {
+  border-color: var(--purple);
+  box-shadow: 0 0 0 3px rgba(108, 63, 200, 0.15);
+}
+
+/* ── Recharts overrides ── */
+.recharts-tooltip-wrapper {
+  outline: none;
+}
+.recharts-default-tooltip {
+  background: var(--bg-surface-2) !important;
+  border: 1px solid var(--border-medium) !important;
+  border-radius: var(--radius-md) !important;
+  color: var(--text-1) !important;
+}
+
+/* ── SSE streaming animation ── */
+@keyframes token-appear {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+.token-new {
+  animation: token-appear 0.1s ease forwards;
+}

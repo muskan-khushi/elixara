@@ -1,0 +1,45 @@
+export const colors = {
+  bgPage: "#0f0b26",
+  bgSurface: "#1c1640",
+  bgSurface2: "#251e50",
+  bgSurface3: "#2e2760",
+  borderSubtle: "#2e2755",
+  borderMedium: "#3d3570",
+  borderStrong: "#5a4fa0",
+  purple: "#6c3fc8",
+  purpleHover: "#7d52d8",
+  purpleGlow: "#8b5de8",
+  purpleDim: "#4a2b9a",
+  gold: "#e8a930",
+  goldHover: "#f0b840",
+  text1: "#f0edf9",
+  text2: "#a89ec8",
+  text3: "#6b6090",
+  entityEquip: "#e8a930",
+  entityReg: "#e85a30",
+  entityPerson: "#30c8a9",
+  entityParam: "#5a9ee8",
+  entityLoc: "#a830c8",
+  success: "#30a856",
+  warning: "#e8a930",
+  danger: "#e83030",
+  info: "#3090e8",
+};
+
+export const ENTITY_COLORS = {
+  equipment: colors.entityEquip,
+  regulation: colors.entityReg,
+  person: colors.entityPerson,
+  process_param: colors.entityParam,
+  location: colors.entityLoc,
+  document: colors.purple,
+};
+
+export const DOC_TYPE_COLORS = {
+  manual: colors.purple,
+  inspection: colors.gold,
+  procedure: colors.entityPerson,
+  work_order: colors.entityParam,
+  regulatory: colors.entityReg,
+  unknown: colors.text3,
+};
