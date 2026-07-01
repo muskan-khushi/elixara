@@ -26,9 +26,9 @@ async function proxy(req, res, method, path, opts = {}) {
 }
 
 router.get("/nodes",              requireAuth, (req, res) => proxy(req, res, "get",  "/nodes"));
-router.get("/nodes/:nodeId(*)",   requireAuth, (req, res) => proxy(req, res, "get",  `/nodes/${req.params.nodeId}`));
+router.get("/nodes/:nodeId(.*)",   requireAuth, (req, res) => proxy(req, res, "get",  `/nodes/${req.params.nodeId}`));
 router.get("/edges",              requireAuth, (req, res) => proxy(req, res, "get",  "/edges"));
-router.get("/subgraph/:nodeId(*)",requireAuth, (req, res) => proxy(req, res, "get",  `/subgraph/${req.params.nodeId}`));
+router.get("/subgraph/:nodeId(.*)",requireAuth, (req, res) => proxy(req, res, "get",  `/subgraph/${req.params.nodeId}`));
 router.get("/path",               requireAuth, (req, res) => proxy(req, res, "get",  "/path"));
 
 module.exports = router;

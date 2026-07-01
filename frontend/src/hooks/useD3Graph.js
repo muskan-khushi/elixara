@@ -146,5 +146,5 @@ export function useD3Graph(svgRef, { nodes, edges }, { onNodeClick, pathNodeIds 
     });
 
     return () => sim.stop();
-  }, [nodes, edges, pathNodeIds]);
+  }, [nodes, edges, pathNodeIds, onNodeClick]);
 }

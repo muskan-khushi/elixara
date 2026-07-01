@@ -1,5 +1,6 @@
 // gateway/config/services.js
-require("dotenv").config({ path: "../.env" });
+const path = require("path");
+require("dotenv").config({ path: path.join(__dirname, "../../.env") });
 
 module.exports = {
   ingest:     process.env.INGEST_SERVICE_URL     || "http://localhost:5001",

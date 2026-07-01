@@ -73,7 +73,7 @@ export default function CompliancePage() {
   // Load latest gaps on mount
   useEffect(() => {
     getGaps().then((data) => {
-      if (data.gaps?.length >= 0) {
+      if (data.gaps?.length > 0) {
         setGaps(data);
         setScanId(data.scan_id);
       }

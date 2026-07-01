@@ -53,7 +53,7 @@ async def stream_answer(
     """
 
     # ── Cache hit: replay stored answer ──────────────────────────────────
-    cached = get_cached(q, scope_doc_id or "")
+    cached = await get_cached(q, scope_doc_id or "")
     if cached:
         async def replay():
             for token in cached["answer"].split(" "):
@@ -74,7 +74,7 @@ async def stream_answer(
 
             # Stage 2A + 2B: dual retrieval
             dense_hits  = await dense_search(q_embedding, n_results=cfg.DENSE_TOP_K, scope_doc_id=scope_doc_id)
-            sparse_hits = sparse_search(q, n=cfg.SPARSE_TOP_K)
+            sparse_hits = sparse_search(q, n=cfg.SPARSE_TOP_K, scope_doc_id=scope_doc_id)
 
             # Stage 3: RRF fusion
             fused = reciprocal_rank_fusion(dense_hits, sparse_hits, k=cfg.RRF_K, top_n=10)
@@ -119,11 +119,11 @@ async def stream_answer(
             yield f'data: {json.dumps({"done": True, "sources": sources, "confidence": confidence})}\n\n'
 
             # Cache result (fire-and-forget — don't await, just set)
-            set_cached(q, scope_doc_id or "", {
+            asyncio.create_task(set_cached(q, scope_doc_id or "", {
                 "answer":     "".join(full_answer),
                 "sources":    sources,
                 "confidence": confidence,
-            })
+            }))
 
         except Exception as exc:
             logger.error(f"Stream error: {exc}", exc_info=True)

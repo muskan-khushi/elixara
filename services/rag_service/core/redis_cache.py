@@ -13,7 +13,7 @@ import hashlib
 import json
 import logging
 
-import redis
+import redis.asyncio as redis
 
 import sys
 import os
@@ -39,9 +39,9 @@ def _cache_key(query: str, scope: str = "") -> str:
     return "elixara:query:" + hashlib.sha256(raw.encode()).hexdigest()[:16]
 
 
-def get_cached(query: str, scope: str = "") -> dict | None:
+async def get_cached(query: str, scope: str = "") -> dict | None:
     try:
-        value = _client().get(_cache_key(query, scope))
+        value = await _client().get(_cache_key(query, scope))
         if value:
             logger.debug(f"Cache HIT for query: {query[:60]}")
             return json.loads(value)
@@ -50,9 +50,9 @@ def get_cached(query: str, scope: str = "") -> dict | None:
     return None
 
 
-def set_cached(query: str, scope: str, result: dict) -> None:
+async def set_cached(query: str, scope: str, result: dict) -> None:
     try:
-        _client().setex(
+        await _client().setex(
             _cache_key(query, scope),
             cfg.REDIS_CACHE_TTL,
             json.dumps(result),
@@ -62,12 +62,12 @@ def set_cached(query: str, scope: str, result: dict) -> None:
         logger.warning(f"Redis set failed (non-fatal): {e}")
 
 
-def invalidate_all() -> int:
+async def invalidate_all() -> int:
     """Clear all Elixara query cache entries. Used after re-ingestion."""
     try:
-        keys = _client().keys("elixara:query:*")
+        keys = await _client().keys("elixara:query:*")
         if keys:
-            return _client().delete(*keys)
+            return await _client().delete(*keys)
     except Exception as e:
         logger.warning(f"Redis flush failed (non-fatal): {e}")
     return 0

@@ -16,6 +16,7 @@ from pathlib import Path
 from fastapi import APIRouter, BackgroundTasks, Depends, File, Form, UploadFile
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "../../.."))
+sys.path.insert(0, os.path.dirname(os.path.dirname(__file__)))
 
 from services.shared.config import get_settings
 from services.shared.mongo import get_db

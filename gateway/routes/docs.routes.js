@@ -12,7 +12,12 @@ const SERVICES        = require("../config/services");
 const router = express.Router();
 
 // POST /api/docs/upload
-router.post("/upload", requireAuth, upload.single("file"), async (req, res) => {
+router.post("/upload", requireAuth, (req, res, next) => {
+  upload.single("file")(req, res, (err) => {
+    if (err) return res.status(400).json({ error: err.message });
+    next();
+  });
+}, async (req, res) => {
   if (!req.file) {
     return res.status(400).json({ error: "No file uploaded" });
   }
@@ -33,7 +38,9 @@ router.post("/upload", requireAuth, upload.single("file"), async (req, res) => {
   } catch (err) {
     res.status(502).json({ error: "Ingest service error", detail: err.message });
   } finally {
-    fs.unlink(req.file.path, () => {});  // clean up temp file
+    if (req.file && req.file.path) {
+      fs.unlink(req.file.path, () => {});  // clean up temp file
+    }
   }
 });
 

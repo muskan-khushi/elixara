@@ -1,5 +1,6 @@
 // gateway/config/index.js
-require("dotenv").config({ path: "../.env" });
+const path = require("path");
+require("dotenv").config({ path: path.join(__dirname, "../../.env") });
 
 module.exports = {
   GATEWAY_PORT: process.env.GATEWAY_PORT || 4000,

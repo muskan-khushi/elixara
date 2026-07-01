@@ -13,12 +13,8 @@ Steps:
 """
 import asyncio
 import logging
-import sys
-import os
 from datetime import datetime, timezone
 from pathlib import Path
-
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), "../../.."))
 
 from services.shared.config import get_settings
 from services.shared.chroma import get_collection

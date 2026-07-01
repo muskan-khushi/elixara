@@ -43,50 +43,55 @@ async def query_docs(body: QueryRequest):
     scope = body.scope_doc_id or ""
 
     # Cache check
-    cached = get_cached(body.query, scope)
+    cached = await get_cached(body.query, scope)
     if cached:
         return {**cached, "cached": True}
 
-    # Retrieval pipeline
-    q_embedding = await embed_query(body.query)
-    dense_hits  = await dense_search(q_embedding, n_results=cfg.DENSE_TOP_K, scope_doc_id=body.scope_doc_id)
-    sparse_hits = sparse_search(body.query, n=cfg.SPARSE_TOP_K)
-    fused       = reciprocal_rank_fusion(dense_hits, sparse_hits, k=cfg.RRF_K, top_n=10)
-    top_chunks  = rerank(body.query, fused, top_k=cfg.RERANK_TOP_K)
-    confidence  = compute_confidence(top_chunks)
-    sources     = build_sources_payload(top_chunks)
-    prompt      = build_prompt(body.query, top_chunks)
+    try:
+        # Retrieval pipeline
+        q_embedding = await embed_query(body.query)
+        dense_hits  = await dense_search(q_embedding, n_results=cfg.DENSE_TOP_K, scope_doc_id=body.scope_doc_id)
+        sparse_hits = sparse_search(body.query, n=cfg.SPARSE_TOP_K, scope_doc_id=body.scope_doc_id)
+        fused       = reciprocal_rank_fusion(dense_hits, sparse_hits, k=cfg.RRF_K, top_n=10)
+        top_chunks  = rerank(body.query, fused, top_k=cfg.RERANK_TOP_K)
+        confidence  = compute_confidence(top_chunks)
+        sources     = build_sources_payload(top_chunks)
+        prompt      = build_prompt(body.query, top_chunks)
 
-    # Blocking LLM generation
-    async with httpx.AsyncClient(timeout=90.0) as client:
-        resp = await client.post(
-            f"{cfg.OLLAMA_BASE_URL}/api/generate",
-            json={
-                "model":  cfg.OLLAMA_LLM_MODEL,
-                "prompt": prompt,
-                "stream": False,
-                "options": {"temperature": 0.1, "num_predict": 512},
-            },
-        )
-        resp.raise_for_status()
+        # Blocking LLM generation
+        async with httpx.AsyncClient(timeout=90.0) as client:
+            resp = await client.post(
+                f"{cfg.OLLAMA_BASE_URL}/api/generate",
+                json={
+                    "model":  cfg.OLLAMA_LLM_MODEL,
+                    "prompt": prompt,
+                    "stream": False,
+                    "options": {"temperature": 0.1, "num_predict": 512},
+                },
+            )
+            resp.raise_for_status()
 
-    answer = resp.json().get("response", "").strip()
+        answer = resp.json().get("response", "").strip()
 
-    result = {"answer": answer, "sources": sources, "confidence": confidence, "cached": False}
-    set_cached(body.query, scope, result)
+        result = {"answer": answer, "sources": sources, "confidence": confidence, "cached": False}
+        await set_cached(body.query, scope, result)
 
-    # Persist to query history
-    db = get_db()
-    await db["queries"].insert_one({
-        "query":      body.query,
-        "answer":     answer,
-        "confidence": confidence,
-        "sources":    [s["doc_name"] for s in sources],
-        "cached":     False,
-        "created_at": utcnow(),
-    })
+        # Persist to query history
+        db = get_db()
+        await db["queries"].insert_one({
+            "query":      body.query,
+            "answer":     answer,
+            "confidence": confidence,
+            "sources":    [s["doc_name"] for s in sources],
+            "cached":     False,
+            "created_at": utcnow(),
+        })
 
-    return result
+        return result
+    except Exception as e:
+        from fastapi import HTTPException
+        logger.error(f"Query error: {e}", exc_info=True)
+        raise HTTPException(status_code=500, detail=str(e))
 
 
 @router.get("/history")

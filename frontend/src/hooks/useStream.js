@@ -1,6 +1,6 @@
 import { useCallback, useRef } from "react";
 import { useQueryStore } from "../store/useQueryStore";
-import { rebuildIndex } from "../api/query";
+import { streamUrl } from "../api/query";
 
 /**
  * Opens an SSE connection to /api/query/stream and feeds tokens
@@ -20,15 +20,10 @@ export function useStream() {
 
       startStream(query, scopeDocId);
 
-      const token = localStorage.getItem("elixara_token");
-      const params = new URLSearchParams({ q: query });
-      if (scopeDocId) params.set("scope_doc_id", scopeDocId);
       // Pass token in header via fetch-based approach isn't possible with EventSource.
       // The gateway's requireAuth middleware also checks Authorization header.
       // We use the blocking /query endpoint when auth is needed or fall back to
-      // the streaming URL — gateway allows Bearer in header for SSE via proxy.
-      const url = `/api/query/stream?${params.toString()}`;
-
+      const url = streamUrl(query, scopeDocId);
       const es = new EventSource(url);
       esRef.current = es;
 

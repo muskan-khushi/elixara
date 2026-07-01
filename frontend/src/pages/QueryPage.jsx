@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useSearchParams, useNavigate } from "react-router-dom";
 import {
-  Send, Mic, X, Clock, ChevronRight,
+  Send, X, Clock, ChevronRight,
   FileText, Zap, Star, Copy, RotateCcw,
 } from "lucide-react";
 import { useStream } from "../hooks/useStream";
@@ -111,6 +111,7 @@ export default function QueryPage() {
       setInput(q);
       setTimeout(() => handleSubmit(q, scope), 300);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // Auto-scroll answer

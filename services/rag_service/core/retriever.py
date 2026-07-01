@@ -75,7 +75,7 @@ class BM25Index:
 
         logger.info(f"BM25 index built: {len(self.corpus)} chunks")
 
-    def search(self, query: str, n: int = 20) -> list[dict]:
+    def search(self, query: str, n: int = 20, scope_doc_id: str | None = None) -> list[dict]:
         if not self.bm25 or not self.corpus:
             return []
 
@@ -86,17 +86,21 @@ class BM25Index:
         scores  = self.bm25.get_scores(q_tokens)
         top_idx = sorted(range(len(scores)), key=lambda i: scores[i], reverse=True)[:n]
 
-        return [
-            {
+        results = []
+        for rank, i in enumerate(top_idx):
+            if scores[i] <= 0.0:
+                continue
+            meta = self.metadatas[i]
+            if scope_doc_id and meta.get("doc_id") != scope_doc_id:
+                continue
+            results.append({
                 "chunk_id":     self.chunk_ids[i],
                 "text":         self.raw_texts[i],
-                "metadata":     self.metadatas[i],
+                "metadata":     meta,
                 "sparse_score": float(scores[i]),
-                "sparse_rank":  rank + 1,
-            }
-            for rank, i in enumerate(top_idx)
-            if scores[i] > 0.0  # skip zero-score results
-        ]
+                "sparse_rank":  len(results) + 1,
+            })
+        return results
 
 
 # Module-level singleton — built at startup, rebuilt on demand
@@ -158,9 +162,9 @@ async def dense_search(
 
 # ── Stage 2B: Sparse retrieval ───────────────────────────────────────────────
 
-def sparse_search(query: str, n: int = 20) -> list[dict]:
+def sparse_search(query: str, n: int = 20, scope_doc_id: str | None = None) -> list[dict]:
     """BM25 search against in-memory index."""
-    return bm25_index.search(query, n=n)
+    return bm25_index.search(query, n=n, scope_doc_id=scope_doc_id)
 
 
 # ── Stage 3: RRF fusion ──────────────────────────────────────────────────────

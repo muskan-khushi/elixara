@@ -20,6 +20,7 @@ from services.shared.mongo import get_db
 
 router = APIRouter()
 cfg    = get_settings()
+logger = logging.getLogger(__name__)
 
 # Load regulation DB once at module import
 REGS_PATH = Path(__file__).parent.parent / "regulations" / "regulations.json"
@@ -60,8 +61,8 @@ async def _check_one(reg: dict) -> dict:
             )
             if resp.status_code == 200:
                 rag_answer = resp.json().get("answer", rag_answer)
-    except Exception:
-        pass
+    except Exception as e:
+        logger.error(f"RAG query failed for reg {reg['id']}: {e}")
 
     # Step 2: classify compliance with phi4-mini
     status = "PARTIAL"  # safe default
@@ -83,8 +84,8 @@ async def _check_one(reg: dict) -> dict:
             word = resp.json().get("response", "").strip().upper()
             if word in ("COMPLIANT", "PARTIAL", "GAP"):
                 status = word
-    except Exception:
-        pass
+    except Exception as e:
+        logger.error(f"Ollama generation failed for reg {reg['id']}: {e}")
 
     return {
         "regulation_id": reg["id"],

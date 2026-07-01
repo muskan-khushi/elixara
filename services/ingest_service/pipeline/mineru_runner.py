@@ -13,6 +13,7 @@ Usage:
   result["content_list"] → parsed JSON with bounding boxes
   result["page_count"]   → number of pages detected
 """
+import asyncio
 import json
 import logging
 import subprocess
@@ -57,7 +58,8 @@ async def run_mineru(
     logger.info(f"Running MinerU: {' '.join(cmd)}")
 
     try:
-        result = subprocess.run(
+        result = await asyncio.to_thread(
+            subprocess.run,
             cmd,
             capture_output=True,
             text=True,
