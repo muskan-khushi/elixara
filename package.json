@@ -5,10 +5,10 @@
   "scripts": {
     "dev:frontend":   "cd frontend && npm run dev",
     "dev:gateway":    "cd gateway && npm run dev",
-    "dev:ingest":     "cd services/ingest_service && .venv/bin/uvicorn main:app --port 5001 --reload",
-    "dev:rag":        "cd services/rag_service && .venv/bin/uvicorn main:app --port 5002 --reload",
-    "dev:graph":      "cd services/graph_service && .venv/bin/uvicorn main:app --port 5003 --reload",
-    "dev:compliance": "cd services/compliance_service && .venv/bin/uvicorn main:app --port 5004 --reload",
+    "dev:ingest":     "cd services/ingest_service && .venv\\Scripts\\uvicorn main:app --port 5001 --reload",
+    "dev:rag":        "cd services/rag_service && .venv\\Scripts\\uvicorn main:app --port 5002 --reload",
+    "dev:graph":      "cd services/graph_service && .venv\\Scripts\\uvicorn main:app --port 5003 --reload",
+    "dev:compliance": "cd services/compliance_service && .venv\\Scripts\\uvicorn main:app --port 5004 --reload",
     "dev:all": "concurrently \"npm:dev:frontend\" \"npm:dev:gateway\" \"npm:dev:ingest\" \"npm:dev:rag\" \"npm:dev:graph\" \"npm:dev:compliance\""
   },
   "devDependencies": {
